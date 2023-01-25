@@ -1,0 +1,41 @@
+* {
+    font-size: 25px;
+}
+
+body{
+ padding: 0;
+ margin: 0;
+
+}
+
+.container{
+    width: 70%;
+    height: 100vh;
+    margin: auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.enter-todo{
+    width: 70%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#new-todo{
+    width: 70%;
+}
+
+#add-todo-button{
+    width: 30%;
+}
+
+.todos-container{
+    flex: 4;
+}
+
