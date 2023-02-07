@@ -1,13 +1,15 @@
 from flask import Flask, request
 from flask import render_template
 from flask_cors import CORS
+from flask import request
 
 application = Flask(__name__)
 CORS(application)
 
 @application.post('/create-todo')
 def create_todo():
-    pass
+    print(request.data)
+    return "pues OK👌"
 
 @application.route('/get-todos')
 def get_todos():
@@ -19,7 +21,7 @@ def get_todos():
 
     data = [
         {
-            "id": 0,
+            "id": 0, 
             "Todo":"primer todo",
             "comleted": True
         },
@@ -35,7 +37,7 @@ def get_todos():
         }
     ]
 
-    return i # o data
+    return i # | data
 
 @application.put('/complete-todo')
 def complete_todo():
