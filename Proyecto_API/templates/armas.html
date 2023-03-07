@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+      <meta charset="UTF-8">
+      <title>Insertar arma</title>
+  </head>
+  <body>
+    <h1>¿Falta algún arma?</h1>
+    <form action="http://127.0.0.1:5000/insertar-arma" method="post">
+      <input type="text" name="nombre" placeholder="Introduce el nombre del arma"><br>
+      <input type="text" name="imagen" placeholder="Introduce la url de la imagen"><br>
+      <input type="text" name="descripcion" placeholder="Introduce la descripcion del arma"><br>
+      <input type="text" name="breve" placeholder="Introduce una breve descripcion del arma"><br>
+      <input type="number" name="danio" placeholder="Daño del arma" max="571"><br>
+      <select name="calidad">
+        <option selected>Calidad</option>
+        <option value="S">S</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+      <button>Insertar</button>
+    </form>
+  </body>
+</html>
