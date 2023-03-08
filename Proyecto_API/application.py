@@ -3,6 +3,7 @@ import mysql.connector
 
 app = Flask(__name__)
 lista_calidades = ["S", "A", "B", "C", "D"]
+lista_tipos = ["Activo", "Pasivo"]
 objetos = []
 
 # Conectar a la base de daots
@@ -65,35 +66,78 @@ def get_objects():
     args = request.args
     base, url = request.url.split('?', 1)
 
-    calidad_input = str(args.get('calidad'))
-    tipo_input = str(args.get('tipo'))
+    calidad_input = request.args.get('calidad')
+    tipo_input = request.args.get('tipo')
+    nombre = request.args.get('nombre')
     objetos_mostrar = []
 
-    # Comrpbar cuántos parámetros se ha introducido
-    if len(calidad_input) > 2:
-        calidades = calidad_input.split(",")
+    # Solo calidad
+    if calidad_input is not None and tipo_input is None:
+        # Comrpbar cuántos parámetros se ha introducido
+        if len(calidad_input) > 2:
+            calidades = calidad_input.split(",")
 
-        # Comprobar si las calidades introducidas son válidas
-        if validar_calidades(calidades, lista_calidades):
-            # Busca el objeto con las calidades introducidas
-            for item in objetos:
-                if item["CALIDAD"] in calidades:
-                    objetos_mostrar.append(item)
-            return objetos_mostrar
+            # Comprobar si las calidades introducidas son válidas
+            if validar_calidades(calidades, lista_calidades):
+                # Busca el objeto con las calidades introducidas
+                for item in objetos:
+                    if item["CALIDAD"] in calidad_input:
+                        objetos_mostrar.append(item)
+                return objetos_mostrar
+            else:
+                # Si la caliad_input no está en la lista
+                return Response("Bad Request", status=400)
         else:
-            # Si la caliad_input no está en la lista
-            return Response("Bad Request", status=400)
+            # Comprobar si la clase introducida es válida
+            if calidad_input in lista_calidades:
+                # Busca el objeto con la caliad_input introducida
+                for item in objetos:
+                    if item["CALIDAD"] == calidad_input:
+                        objetos_mostrar.append(item)
+                return objetos_mostrar
+            else:
+                # Si la caliad_input no está en la lista
+                return Response("Bad Request", status=400)
+    # Solo tipo
+    elif calidad_input is None and tipo_input is not None:
+        # Validar el tipo, está en la lista
+        if tipo_input in lista_tipos:
+            for item in objetos:
+                if item["TIPO"] == tipo_input:
+                    objetos_mostrar.append(item)
+            if len(objetos_mostrar) > 0:
+                return objetos_mostrar
+            else:
+                return Response("ERROR: Not found", status=404)
+        else:
+            return Response("ERROR: El tipo introducido no es válido", status=400)
+    # Calidad y tipo
+    elif tipo_input is not None and calidad_input is not None:
+        if calidad_input in lista_calidades and tipo_input in lista_tipos:
+            for item in objetos:
+                if item["CALIDAD"] == calidad_input and item["TIPO"] == tipo_input:
+                    objetos_mostrar.append(item)
+            if len(objetos_mostrar) > 0:
+                return objetos_mostrar
+            else:
+                return Response("ERROR: Not found", status=404)
+        else:
+            return Response("ERROR: La calidad y el tipo deben ser válidos", status=400)
+    # Solo nombre (no puede ir con más)
+    elif nombre is not None:
+        # Comprobar que no está vacío
+        if nombre != "":
+            for item in objetos:
+                if item["NOMBRE"] == nombre:
+                    objetos_mostrar.append(item)
+            if len(objetos_mostrar) > 0:
+                return objetos_mostrar
+            else:
+                return Response("ERROR: Not Found", status=404)
+        else:
+            return Response("ERROR: El nombre no puede estar vacío", status=400)
     else:
-        # Comprobar si la clase introducida es válida
-        if calidad_input in lista_calidades:
-            # Busca el objeto con la caliad_input introducida
-            for item in objetos:
-                if item["CALIDAD"] == calidad_input:
-                    objetos_mostrar.append(item)
-            return objetos_mostrar
-        else:
-            # Si la caliad_input no está en la lista
-            return Response("Bad Request", status=400)
+        return Response("ERROR: Not found", status=404)
 
 
 # Obtener armas
@@ -105,6 +149,7 @@ def get_guns():
 
     calidad_input = request.args.get('calidad')
     danio_input = request.args.get('dano')
+    nombre = request.args.get('nombre')
     armas_mostrar = []
 
     # Si solo se introduce daño
@@ -121,7 +166,6 @@ def get_guns():
                 return Response("Not found", status=404)
         else:
             return Response("Bad Request", status=400)
-        return "Hay damage"
     # Si solo se introduce calidad
     elif calidad_input is not None and danio_input is None:
         # Comrpbar cuántos parámetros se ha introducido
@@ -189,6 +233,19 @@ def get_guns():
                     return Response("Bad Request", status=400)
         else:
             return Response("Bad Request", status=400)
+    # Si se introduce nombre
+    elif nombre is not None:
+        # Comprobar que no está vacío
+        if nombre != "":
+            for item in armas:
+                if item["NOMBRE"] == nombre:
+                    armas_mostrar.append(item)
+            if len(armas_mostrar) > 0:
+                return armas_mostrar
+            else:
+                return Response("ERROR: Not Found", status=404)
+        else:
+            return Response("ERROR: El nombre no puede estar vacío", status=400)
     else:
         return Response("Not found", status=404)
 
@@ -200,21 +257,38 @@ def get_jefes():
     args = request.args
     base, url = request.url.split('?', 1)
 
+    nombre = request.args.get('nombre')
     piso_input = request.args.get('piso')
+
     jefes_mostrar = []
 
-    # Comprobar que se ha introducido un número
-    if piso_input.isdigit():
-        if int(piso_input) < 6:
+    if piso_input is not None:
+        # Comprobar que se ha introducido un número
+        if piso_input.isdigit():
+            if int(piso_input) < 6:
+                for item in jefes:
+                    if item["PISO"] == int(piso_input):
+                        jefes_mostrar.append(item)
+                if len(jefes_mostrar) > 0:
+                    return jefes_mostrar
+                else:
+                    return Response("Not Found", status=404)
+            else:
+                return Response("Bad Request", status=400)
+        else:
+            return Response("Bad Request", status=400)
+    elif nombre is not None:
+        # Comprobar que no está vacío
+        if nombre != "":
             for item in jefes:
-                if item["PISO"] == int(piso_input):
+                if item["NOMBRE"] == nombre:
                     jefes_mostrar.append(item)
             if len(jefes_mostrar) > 0:
                 return jefes_mostrar
             else:
-                return Response("Not Found", status=404)
+                return Response("ERROR: Not Found", status=404)
         else:
-            return Response("Bad Request", status=400)
+            return Response("ERROR: El nombre no puede estar vacío", status=400)
     else:
         return Response("Bad Request", status=400)
 
@@ -301,6 +375,262 @@ def insertar_jefe():
                 return Response("ERROR: Faltan campos", status=400)
         else:
             return Response("ERROR: Piso no seleccionado", status=400)
+
+
+# Eliminar objetos
+@app.route('/eliminar-objeto', methods=['DELETE'])
+def eliminar_objeto():
+    nombre_input = request.args.get("nombre")
+    encontrado = False
+    if nombre_input != "":
+        # Comprobar que el nombre existe
+        for item in objetos:
+            if item["NOMBRE"] == nombre_input:
+                encontrado = True
+
+        # En el caso de que exista se elimina
+        if encontrado:
+            mycursor = mydb.cursor()
+            query = "DELETE FROM objetos WHERE `objetos`.`NOMBRE` = '{}';".format(nombre_input)
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Objeto eliminado", status=200)
+        else:
+            return Response("ERROR: Not found", status=404)
+    # Si el campo de nombre está vacío
+    else:
+        return Response("ERROR: No has rellenado el campo", status=400)
+
+
+# Eliminar arma
+@app.route('/eliminar-arma', methods=['DELETE'])
+def eliminar_arma():
+    nombre = request.args.get("nombre")
+    encontrado = False
+    if nombre != "":
+        for item in armas:
+            if item["NOMBRE"] == nombre:
+                encontrado = True
+        if encontrado:
+            mycursor = mydb.cursor()
+            query = "DELETE FROM armas WHERE `armas`.`NOMBRE` = '{}';".format(nombre)
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Arma eliminada", status=200)
+        else:
+            return Response("ERROR: Not found", status=404)
+    else:
+        return Response("ERROR: No has rellenado el campo", status=400)
+
+
+# Eliminar jefe
+@app.route('/eliminar-jefe', methods=['DELETE'])
+def eliminar_jefe():
+    nombre = request.args.get("nombre")
+    encontrado = False
+    if nombre != "":
+        for item in jefes:
+            if item["NOMBRE"] == nombre:
+                encontrado = True
+        if encontrado:
+            mycursor = mydb.cursor()
+            query = "DELETE FROM jefes WHERE `jefes`.`NOMBRE` = '{}';".format(nombre)
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Jefe eliminado", status=200)
+        else:
+            return Response("ERROR: Not found", status=404)
+    else:
+        return Response("ERROR: No has rellenado el campo", status=400)
+
+
+# Modificar un objeto
+@app.route('/modificar-objeto', methods=['PUT'])
+def modificar_objeto():
+    nombre_input = request.args.get('nombre')
+    nuevo_nombre = request.args.get('nuevo_nombre')
+    efecto = request.args.get('efecto')
+    breve = request.args.get('breve')
+    imagen = request.args.get('imagen')
+    calidad = request.args.get('calidad')
+    tipo = request.args.get('tipo')
+    encontrado = False
+    existe = False
+
+    # Si no hay nombre no se puede modificar
+    if nombre_input is not None:
+        # Si el nombre no existe no se puede modificar
+        for i in objetos:
+            if i["NOMBRE"] == nombre_input:
+                encontrado = True
+        if encontrado:
+            # Validar todos los campos
+            # Si uno de los campos no se introduce se busca cuál era su antiguo valor
+            if efecto is None:
+                for i in objetos:
+                    if i["NOMBRE"] == nombre_input:
+                        efecto = i["EFECTO"]
+            if breve is None:
+                for i in objetos:
+                    if i["NOMBRE"] == nombre_input:
+                        breve = i["BREVE"]
+            if imagen is None:
+                for i in objetos:
+                    if i["NOMBRE"] == nombre_input:
+                        imagen = i["IMAGEN"]
+            if calidad is None:
+                for i in objetos:
+                    if i["NOMBRE"] == nombre_input:
+                        calidad = i["CALIDAD"]
+            if tipo is None:
+                for i in objetos:
+                    if i["NOMBRE"] == nombre_input:
+                        tipo = i["TIPO"]
+            # Validar el tipo, calidad y nuevo_nombre
+            if calidad is not None:
+                if calidad not in lista_calidades:
+                    return Response("ERROR: El valor de la calidad es inválido", status=400)
+            if tipo is not None:
+                if tipo not in lista_tipos:
+                    return Response("ERROR: El valor del tipo es inválido", status=400)
+            if nuevo_nombre is not None:
+                existe = False
+                for i in objetos:
+                    if i["NOMBRE"] == nuevo_nombre:
+                        existe = True
+            if nuevo_nombre is None:
+                nuevo_nombre = nombre_input
+            if existe:
+                return Response("ERROR: El nuevo nombre que quieres introducir ya existe", status=400)
+
+            query = "UPDATE `objetos` SET `NOMBRE` = '{}', `EFECTO` = '{}', `BREVE` = '{}', `IMAGEN` = '{}'," \
+                    " `CALIDAD` = '{}', `TIPO` = '{}' WHERE `objetos`.`NOMBRE` = '{}'; ".format(nuevo_nombre,
+                                                                                                efecto, breve,
+                                                                                                imagen, calidad,
+                                                                                                tipo, nombre_input)
+            mycursor = mydb.cursor()
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Objeto modificado", status=201)
+        else:
+            return Response("ERROR: Not found", status=404)
+    else:
+        return Response("ERROR: Bad Request", status=400)
+
+
+# Modificar un arma
+@app.route('/modificar-arma', methods=['PUT'])
+def modificar_arma():
+    nombre_input = request.args.get("nombre")
+    nuevo_nombre = request.args.get("nuevo_nombre")
+    imagen = request.args.get("imagen")
+    dano = request.args.get("dano")
+    breve = request.args.get("breve")
+    calidad = request.args.get("calidad")
+    descripcion = request.args.get("descripcion")
+    encontrado = False
+    existe = False
+
+    # Si no hay nombre no se puede modificar
+    if nombre_input is not None:
+        # Si el nombre no existe no se puede modificar
+        for i in armas:
+            if i["NOMBRE"] == nombre_input:
+                encontrado = True
+        if encontrado:
+            # Validar todos los campos
+            # Si uno de los campos no se introduce se busca cuál era su antiguo valor
+            if imagen is None:
+                for a in armas:
+                    if a["NOMBRE"] == nombre_input:
+                        imagen = a["IMAGEN"]
+            if dano is None:
+                for a in armas:
+                    if a["NOMBRE"] == nombre_input:
+                        dano = a["DANIO"]
+            if breve is None:
+                for a in armas:
+                    if a["NOMBRE"] == nombre_input:
+                        breve = a["BREVE"]
+            if calidad is None:
+                for a in armas:
+                    if a["NOMBRE"] == nombre_input:
+                        calidad = a["CALIDAD"]
+            if descripcion is None:
+                for a in armas:
+                    if a["NOMBRE"] == nombre_input:
+                        descripcion = a["DESCRIPCION"]
+            # Validar calidad y nombre
+            if calidad is not None:
+                if calidad not in lista_calidades:
+                    return Response("ERROR: El valor de la calidad es inválido", status=400)
+            if nuevo_nombre is not None:
+                existe = False
+                for i in armas:
+                    if i["NOMBRE"] == nuevo_nombre:
+                        existe = True
+            if nuevo_nombre is None:
+                nuevo_nombre = nombre_input
+            if existe:
+                return Response("ERROR: El nuevo nombre que quieres introducir ya existeee", status=400)
+
+            query = "UPDATE `armas` SET `NOMBRE` = '{}', `IMAGEN` = '{}', `DESCRIPCION` = '{}', `BREVE` = '{}', " \
+                    "`DANIO` = '{}', `CALIDAD` = '{}' WHERE `armas`.`NOMBRE` = '{}';".format(nuevo_nombre, imagen,
+                                                                                             descripcion, breve, dano,
+                                                                                             calidad, nombre_input)
+            mycursor = mydb.cursor()
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Arma modificada", status=201)
+        else:
+            return Response("ERROR: Not Found", status=404)
+
+    else:
+        return Response("ERROR: Bad Request", status=400)
+
+
+# Modificar un jefe
+@app.route('/modificar-jefe', methods=['PUT'])
+def modificar_jefe():
+    nombre = request.args.get("nombre")
+    nombre_nuevo = request.args.get("nuevo_nombre")
+    piso = request.args.get("piso")
+    descripcion = request.args.get("descripcion")
+    encontrado = False
+    exsite = False
+
+    if nombre is not None:
+        for j in jefes:
+            if j["NOMBRE"] == nombre:
+                encontrado = True
+        if encontrado:
+            if piso is None:
+                for j in jefes:
+                    if j["NOMBRE"] == nombre:
+                        piso = j["PISO"]
+            if descripcion is None:
+                for j in jefes:
+                    if j["NOMBRE"] == nombre:
+                        descripcion = j["DESCRIPCION"]
+            if nombre_nuevo is not None:
+                for j in jefes:
+                    if j["NOMBRE"] == nombre_nuevo:
+                        exsite = True
+            if nombre_nuevo is None:
+                nombre_nuevo = nombre
+            if exsite:
+                return Response("ERROR: El nuevo nombre que intentas introducir ya existe", status=400)
+            query = "UPDATE `jefes` SET `NOMBRE` = '{}', `PISO` = '{}', `DESCRIPCION` = '{}' " \
+                    "WHERE `jefes`.`NOMBRE` = '{}';".format(nombre_nuevo, piso, descripcion, nombre)
+            mycursor = mydb.cursor()
+            mycursor.execute(query)
+            mydb.commit()
+            return Response("Jefe modificado", status=201)
+            # return query
+        else:
+            return Response("ERROR: Not Found", status=404)
+    else:
+        return Response("ERROR: Bad request", status=400)
 
 
 def validar_calidades(lista1, lista2):
