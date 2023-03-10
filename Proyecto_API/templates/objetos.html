@@ -1,9 +1,35 @@
 <html>
     <head>
        <title>Insertar Objeto</title>
+       <style>
+        *{
+          font-family: Arial;
+        }
+        input{
+          width: 20%;
+          height: 20px;
+          margin: 0.4%;
+        }
+        select{
+           margin: 0.4%;
+           width: 10%;
+        }
+        button{
+          width: 10%;
+        }
+        .contenedor{
+          width: 98%;
+          background-color: grey;
+          padding: 0.5%;
+          padding-bottom: 2%;
+          border-radius: 5px; 
+          margin: auto;
+        }
+      </style>
     </head>
     <body>
-        <h1>¿Falta algún objeto?</h1>
+        <div class="contenedor">
+            <h1>¿Falta algún objeto?</h1>
         <form method="post" action="http://127.0.0.1:5000/insertar-objeto">
             <input type="text" name="nombre" placeholder="Introduce el nombre del objeto"/><br>
             <input type="text" name="efecto" placeholder="Introduce el efecto de este objeto"/><br>
@@ -24,5 +50,6 @@
             </select><br>
             <button>Insertar</button>
         </form>
+        </div>
     </body>
 </html>

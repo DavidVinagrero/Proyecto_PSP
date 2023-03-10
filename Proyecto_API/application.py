@@ -6,7 +6,7 @@ lista_calidades = ["S", "A", "B", "C", "D"]
 lista_tipos = ["Activo", "Pasivo"]
 objetos = []
 
-# Conectar a la base de daots
+# Conectar a la base de datos
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -83,7 +83,10 @@ def get_objects():
                 for item in objetos:
                     if item["CALIDAD"] in calidad_input:
                         objetos_mostrar.append(item)
-                return objetos_mostrar
+                if len(objetos_mostrar) > 0:
+                    return objetos_mostrar
+                else:
+                    return Response("ERROR: Not Found", status=404)
             else:
                 # Si la caliad_input no está en la lista
                 return Response("Bad Request", status=400)
@@ -94,10 +97,13 @@ def get_objects():
                 for item in objetos:
                     if item["CALIDAD"] == calidad_input:
                         objetos_mostrar.append(item)
-                return objetos_mostrar
+                if len(objetos_mostrar) > 0:
+                    return objetos_mostrar
+                else:
+                    return Response("ERROR: Not Found", status=404)
             else:
                 # Si la caliad_input no está en la lista
-                return Response("Bad Request", status=400)
+                return Response("ERROR: Bad Request", status=400)
     # Solo tipo
     elif calidad_input is None and tipo_input is not None:
         # Validar el tipo, está en la lista

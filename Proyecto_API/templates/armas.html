@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-      <meta charset="UTF-8">
+      <link rel="stylesheet" href="css/index.css"><meta charset="UTF-8">
       <title>Insertar arma</title>
+      <style>
+        *{
+          font-family: Arial;
+        }
+        input{
+          width: 20%;
+          height: 20px;
+          margin: 0.4%;
+        }
+        select{
+           margin: 0.4%;
+           width: 10%;
+        }
+        button{
+          width: 10%;
+        }
+        .contenedor{
+          width: 98%;
+          background-color: grey;
+          padding: 0.5%;
+          padding-bottom: 2%;
+          border-radius: 5px;
+          margin: auto;
+        }
+      </style>
   </head>
   <body>
-    <h1>¿Falta algún arma?</h1>
-    <form action="http://127.0.0.1:5000/insertar-arma" method="post">
+    <div class="contenedor">
+      <h1>¿Falta algún arma?</h1>
+      <form action="http://127.0.0.1:5000/insertar-arma" method="post">
       <input type="text" name="nombre" placeholder="Introduce el nombre del arma"><br>
       <input type="text" name="imagen" placeholder="Introduce la url de la imagen"><br>
       <input type="text" name="descripcion" placeholder="Introduce la descripcion del arma"><br>
@@ -21,6 +47,7 @@
         <option value="D">D</option>
       </select>
       <button>Insertar</button>
-    </form>
+      </form>
+    </div>
   </body>
 </html>

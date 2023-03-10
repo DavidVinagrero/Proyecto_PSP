@@ -1,11 +1,236 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <link rel="stylesheet" href="../css/index.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="icon" type="image/x-icon" href="img/etg_icon.png">
         <meta charset="UTF-8">
         <title>Enter the Gungeon-API</title>
     </head>
     <body>
+        <center>
+            <div class="container">
+                <div class="titulo">
+                    <b>Enter the Gungeon API</b>
+                </div>
+                <div class="info">
+                    Las respuestas que los métodos <b>GET</b>, son un <u>json</u> que tiene esta estructura:
+                </div>
+                <div class="codigo">
+                    <code><br>
+                         [<br>
+                         &emsp;{<br>
+                             &emsp;"BREVE": "Arma para novatos",<br>
+                             &emsp;"CALIDAD": "A",<br>
+                             &emsp;"DANIO": 30,<br>
+                             &emsp;"DESCRIPCION": "Su única desventaja es el largo tiempo entre disparos. Hay quién dice que dispara más deprisa si lo guardas después de cada disparo"<br>
+                             &emsp;"ID":8,<br>
+                             &emsp;"IMAGEN":"https://static.wikia.nocookie.net/enterthegungeon_gamepedia/images/8/85/A.W.P..png"<br>
+                             &emsp;"NOMBRE": "A.W.P<br>
+                         &emsp;}<br>
+                         ]<br><br>
+                    </code>
+                </div>
+                <div class="titulo_2">
+                    Métodos GET
+                </div>
+                <div class="info">
+                    Existen seis endpoints en la api, dos para cada tipo: <b>armas</b>, <b>objetos</b> y <b>jefes</b>.<br>
+                    <br>Para cada una de estas tres clases <b>existe un endpoint que devuelve todo el contendio</b> de la base de datos
+                    de esa categroría, siendo la estructura:
+                </div>
+                <div class="codigo"><br>
+                    <code>
+                        Obtener todas las <b>armas:</b><br>
+                        &emsp; <a href="http://127.0.0.1:5000/get-all-guns" target="_blank">http://127.0.0.1:5000/<b>get-all-<f style="color: goldenrod;">guns</f></b></a><br><br>
+                        Obtener todos los <b>objetos:</b><br>
+                        &emsp; <a href="http://127.0.0.1:5000/get-all-objects" target="_blank">http://127.0.0.1:5000/<b>get-all-<f style="color: goldenrod;">objects</f></a></b><br><br>
+                        Obtener todos los <b>jefes:</b><br>
+                        &emsp; <a  href="http://127.0.0.1:5000/get-all-jefes" target="_blank">http://127.0.0.1:5000/<b>get-all-<f style="color: goldenrod;">jefes</f></a></b><br>
+                    <br>
+                    </code>
+                </div>
+                <div class="titulo_3">
+                    Objetos
+                </div>
+                <div class="info">
+                    Para obtener distintos objetos el usuario puede elegir que atributos está buscando y ponerlos en la url, 
+                    se puede filtrar por: <b>calidad</b>, <b>tipo</b> y <b>nombre</b>. Los atributos de calidad y tipo pueden ir
+                    en la misma url o separados (el orden también da igual), mientras que <u> el nombre debe ir siempre solo</u>. Si se 
+                    introduce el nombre y otro parámetro después ignorará este último, si se pone el nombre después de otro parámetro
+                    el nombre no se buscará.<br><br>
+                    Las calidades permitidas son <b>A</b>,<b>B</b>,<b>C</b>,<b>D</b> y <b>S</b><br>
+                    Los tipos permitidos son <b>Activo</b> y <b>Pasivo</b>.<br>
+                    Si se introduce una calidad no permitida dará error al igual que si se introduce un tipo distito de los ya mencionados.
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Buscar objetos por la <b>calidad:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-objects?calidad=A" target="_blank">http://127.0.0.1:5000/get-objects?<f style="color: forestgreen;">calidad</f>=A</a><br><br>
+                        Buscar objetos por <b>múltiples calidades:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-objects?calidad=A,S" target="_blank">http://127.0.0.1:5000/get-objects?<f style="color: forestgreen;">calidad</f>=A,S</a><br><br>
+                        Buscar objetos por el <b>tipo:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-objects?tipo=Activo" target="_blank">http://127.0.0.1:5000/get-objects?<f style="color: forestgreen;">tipo</f>=Activo</a><br><br>
+                        Buscar objetos por el <b>tipo y la calidad:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-objects?tipo=Pasivo&calidad=S" target="_blank">http://127.0.0.1:5000/get-objects?<f style="color: forestgreen;">tipo</f>=Pasivo&<f style="color: dodgerblue;">calidad</f>=S</a><br><br>
+                        Buscar objetos por el <b>nombre:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-objects?nombre=Corchete" target="_blank">http://127.0.0.1:5000/get-objects?<f style="color: forestgreen;">nombre</f>=Corchete</a><br><br>
+                    </code>
+                </div>
+                <div class="titulo_3">
+                    Armas
+                </div>
+                <div class="info">
+                    Para obtener distintas armas el usuario puede elegir que atributos está buscando y al igual que con los objetos los pone en el url,
+                    se pude filtrar por: <b>calidad</b>, <b>daño</b> y <b>nombre</b>. Los atributos de calidad y tipo pueden ir
+                    en la misma url o separados (el orden también da igual), mientras que <u> el nombre debe ir siempre solo</u>. Si se 
+                    introduce el nombre y otro parámetro después ignorará este último, si se pone el nombre después de otro parámetro
+                    el nombre no se buscará.<br><br>
+                    Las calidades permitidas son <b>A</b>,<b>B</b>,<b>C</b>,<b>D</b> y <b>S</b><br>
+                    Si se introduce un daño buscará todas las armas que tengan <b>mayor o igual daño</b> que el introducido.
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Buscar por <b>daño:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-guns?dano=80" target="_blank">http://127.0.0.1:5000/get-guns?<f style="color: forestgreen;">dano</f>=80</a><br><br>
+                        Buscar armas por la <b>calidad:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-guns?calidad=A" target="_blank">http://127.0.0.1:5000/get-guns?<f style="color: forestgreen;">calidad</f>=A</a><br><br>
+                        Buscar armas por <b>múltiples calidades:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-gunss?calidad=A,S" target="_blank">http://127.0.0.1:5000/get-guns?<f style="color: forestgreen;">calidad</f>=A,S</a><br><br>
+                        Buscar armas por <b>daño y calidad:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-guns?dano=80&calidad=A" target="_blank">http://127.0.0.1:5000/get-guns?<f style="color: forestgreen;">calidad</f>=A&<f style="color: dodgerblue;">dano</f>=80</a><br><br>
+                        Buscar armas por el <b>nombre:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-guns?nombre=Elimmental" target="_blank">http://127.0.0.1:5000/get-guns?<f style="color: forestgreen;">nombre</f>=Elimmental</a><br><br>
+                    </code>
+                </div>
+                <div class="titulo_3">
+                    Jefes
+                </div>
+                <div class="info">
+                    Para obtener los distintos jefes el usuario puede elegir dos atributos <u>independientes</u> en la url. Los atributos son: <b>nombre</b> y 
+                    <b>piso</b> al que pertenecen. Como ya he mencionado estos dos atributos deben ir separados y no en la misma línea, o solo buscará por el primer campo 
+                    que se introduzca.<br><br>
+                    Los pisos válidos son del <b>1</b> al <b>5</b>, ninguno más ni ninguno menos.
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Buscar por <b>nombre:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-jefes?nombre=Armaconda" target="_blank">http://127.0.0.1:5000/get-jefes?<f style="color: forestgreen;">nombre</f>=Armaconda</a><br><br>
+                        Buscar por <b>nombre:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/get-jefes?piso=5" target="_blank">http://127.0.0.1:5000/get-jefes?<f style="color: forestgreen;">piso</f>=5</a><br><br>
+                    </code>
+                </div>
+                <div class="titulo_2">
+                    Métodos POST
+                </div>
+                <div class="info">
+                    Para poder introducir nuevos pisos, armas y jefes. Se tiene que usar un endpoint que tiene un template donde el usuario puede rellenar un formualrio con algunos datos
+                    ya validados y un boton. Una vez todos los datos del formulario están validados se introduce ese nuevo jefe, arma u objeto.
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Insertar <b>objeto:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/insertar-objeto" target="_blank">http://127.0.0.1:5000/<f style="color: forestgreen;">insertar-objeto</f></a><br><br>
+                        Insertar <b>arma:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/insertar-arma" target="_blank">http://127.0.0.1:5000/<f style="color: forestgreen;">insertar-arma</f></a><br><br>
+                        Insertar <b>jefe:</b><br>
+                        &emsp;<a href="http://127.0.0.1:5000/insertar-jefe" target="_blank">http://127.0.0.1:5000/<f style="color: forestgreen;">insertar-jefe</f></a><br><br>
+                    </code>
+                </div>
+                <div class="titulo_2">
+                    Métodos DELETE
+                </div>
+                <div class="info">
+                    Para poder eliminar un objeto, arma o jefe basta solo con poner el nombre en la url, y lo eliminará de la base de datos. Si el nombre introducido no existe dará un error.
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Eliminar un <b>objeto:</b><br>
+                        &emsp; http://127.0.0.1:5000/eliminar-objeto?<f style="color: forestgreen;">nombre</f>=Ejemplo<br><br>
+                        Eliminar un <b>arma:</b><br>
+                        &emsp; http://127.0.0.1:5000/eliminar-arma?<f style="color: forestgreen;">nombre</f>=Ejemplo<br><br>
+                        Eliminar un <b>jefe:</b><br>
+                        &emsp; http://127.0.0.1:5000/eliminar-jefe?<f style="color: forestgreen;">nombre</f>=Ejemplo<br><br>
+                    </code>
+                </div>
+                <div class="titulo_2">
+                    Métodos PUT
+                </div>
+                <div class="titulo_3">
+                    Objetos
+                </div>
+                <div class="info">
+                    Para poder modificar un dato de un objeto se utiliza el método PUT. En la url se debe poner <b>obligatoriamente</b> el nombre del objeto a modificar
+                    luego se pueden introducir distintos parámetros que se quieran modificar. Para poder modificar un objeto en la url no hacen falta más que los datos que se queran modificar,
+                    lo que significa que los parámetros que no se han introducido <u>no se eliminarán</u>, quedarán con el valor antiguo.<br><br>
+                    Los parámetros que se pueden modificar son:<br>
+                    <ul>
+                        <li>Nombre (introducir un nombre nuevo)</li>
+                        <li>Breve (una breve descripción)</li>
+                        <li>Efecto</li>
+                        <li>Imagen</li>
+                        <li>Calidad (A,B,C,D,S)</li>
+                        <li>Tipo (Activo, Pasivo)</li>
+                    </ul>
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Modificar el <b>nombre</b> de un objeto:<br>
+                        &emsp;http://127.0.0.1:5000/modificar-objeto?<f style="color: forestgreen;">nombre</f>=Corchete&<f style="color: dodgerblue;">nuevo_nombre</f>=Parentesis<br><br>
+                        Modificar la <b>calidad</b> y el <b>efecto</b>:<br>
+                        &emsp;http://127.0.0.1:5000/modificar-objeto?<f style="color: forestgreen;">nombre</f>=Reloj supercaliente&<f style="color: dodgerblue;">calidad</f>=D&<f style="color: tomato;">efecto</f>=Quema mucho<br><br>
+                    </code>
+                </div>
+                <div class="titulo_3">
+                    Armas
+                </div>
+                <div class="info">
+                    Para poder modificar un arma el proceso es idéntico al de modificar un objeto. En la url se debe poner <b>obligatoriamente</b> el nombre del arma a modificar
+                    luego se pueden introducir distintos parámetros que se quieran modificar. Para poder modificar un arma en la url no hacen falta más que los datos que se queran modificar,
+                    lo que significa que los parámetros que no se han introducido <u>no se eliminarán</u>, quedarán con el valor antiguo.<br><br>
+                    Los parámetros que se pueden modificar son:<br>
+                    <ul>
+                        <li>Nombre (introducir un nombre nuevo)</li>
+                        <li>Breve (una breve descripción)</li>
+                        <li>Daño</li>
+                        <li>Imagen</li>
+                        <li>Calidad (A,B,C,D,S)</li>
+                        <li>Descripcion</li>
+                    </ul>
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Moddificar el <b>daño</b>:<br>
+                        &emsp;http://127.0.0.1:5000/modificar-arma?<f style="color: forestgreen;">nombre</f>=A.W.P&<f style="color: dodgerblue;">dano</f>=90<br><br>
+                        Moddificar la <b>calidad</b> y el <b>nombre</b>:<br>
+                        &emsp;http://127.0.0.1:5000/modificar-arma?<f style="color: forestgreen;">nombre</f>=Arma AU&<f style="color: dodgerblue;">nuevo_nombre</f>=EjemploAWP&<f style="color: tomato;">calidad</f>=A<br><br>
+                        Modificar la <b>desripcion</b> y la <b>imagen</b>:<br>
+                        &emsp;http://127.0.0.1:5000/modificar-arma?<f style="color: forestgreen;">nombre</f>=Elimmental&<f style="color: dodgerblue;">descripcion</f>=Ahora se entiende algo&<f  style="color: tomato;">imagen</f>=queso.jpg<br><br>
+                    </code>
+                </div>
+                <div class="titulo_3">
+                    Jefes
+                </div>
+                <div class="info">
+                    Para poder modificar un jefe el proceso es idéntico a los anteriores. En la url se debe poner <b>obligatoriamente</b> el nombre del jefe a modificar
+                    luego se pueden introducir distintos parámetros que se quieran modificar. Para poder modificar un jefe en la url no hacen falta más que los datos que se queran modificar,
+                    lo que significa que los parámetros que no se han introducido <u>no se eliminarán</u>, quedarán con el valor antiguo.<br><br>
+                    Los parámetros que se pueden modificar son:<br>
+                    <ul>
+                        <li>Nombre (introducir un nombre nuevo)</li>
+                        <li>Piso</li>
+                        <li>Descripción</li>
+                    </ul>
+                </div>
+                <div class="codigo">
+                    <code><br>
+                        Modificar el <b>piso:</b><br>
+                        &emsp;http://127.0.0.1:5000/modificar-jefe?<f style="color: forestgreen;">nombre</f>=Armaconda&<f style="color: dodgerblue;">piso</f>=4<br><br>
+                        Modificar la <b>descripción</b> y <b>nombre:</b><br>
+                        &emsp;http://127.0.0.1:5000/modificar-jefe?<f style="color: forestgreen;">nombre</f>=Cannonbalrog&<f style="color: dodgerblue;">descripcion</f>=Esta es la descripcion&<f style="color: tomato;">nuevo_nombre</f>=Bola de canon<br><br>
 
+                    </code>
+                </div>
+            </div> 
+        </center>
     </body>
 </html>

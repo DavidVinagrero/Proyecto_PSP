@@ -1,3 +1,81 @@
-*{
-    background-color: red;
+body{
+    background-image: url(../img/etg_back.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.container{
+    width: 90%;
+    height: 100%;
+    /* border: 1px solid black; */
+    background-color:mediumslateblue;
+    opacity: 0.9;
+    border-radius: 3px;
+    padding: 0.9%;
+}
+
+.info{
+    width: 100%;
+    height: 30%;
+    /* border: 1px solid black; */
+    text-align: justify;
+    font-size: 110%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-family: Arial;
+}
+
+.titulo{
+    width: 100%;
+    height: 20%;
+    /* border: 1px solid black; */
+    text-align: justify;
+    font-size: 250%;
+    color: gold;
+    font-family: Helvetica;
+}
+
+.titulo_2{
+    width: 100%;
+    height: 20%;
+    /* border: 1px solid black; */
+    text-align: justify;
+    font-size: 190%;
+    color: gold;
+    font-family: Helvetica;
+}
+.titulo_3{
+    width: 100%;
+    height: 20%;
+    /* border: 1px solid black; */
+    text-align: justify;
+    font-size: 170%;
+    color: gold;
+    font-family: Helvetica;
+}
+ 
+.codigo{
+    width: 99%;
+    height: 30%;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    text-align: justify;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 105%;
+    padding-left: 1%;
+}
+img{
+    width: 100%;
+    border-radius: 2px;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+
+input{
+    width: 30%;
 }
