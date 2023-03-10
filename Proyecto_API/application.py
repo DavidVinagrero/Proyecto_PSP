@@ -58,6 +58,11 @@ def get_all_guns():
 def get_all_jefes():
     return jefes
 
+# Obtener la página pricipal
+@app.route('/', methods=["GET"])
+def get_index():
+    return render_template('index.html')
+
 
 # Obtener objetos
 @app.route('/get-objects', methods=["GET"])
