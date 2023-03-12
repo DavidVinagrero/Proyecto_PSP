@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Insertar Jefe</title>
-    </head>
-    <body>
-    <h1>Seguro que faltan pocos</h1>
-        <form action="http://127.0.0.1:5000/insertar-jefe" method="post">
-            <input type="text" name="nombre" placeholder="Introduce el nombre del Jefe"><br>
-            <input type="text" name="descripcion" placeholder="Introduce el descripcion del Jefe"><br>
-            <select name="piso">
-                <option selected>Piso</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button>Crear</button>
-        </form>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insertar Jefe</title>
+    <link rel="stylesheet" href="../static/css/index.css" />
+  </head>
+  <body>
+    <center>
+      <h1>Seguro que faltan pocos</h1>
+      <form action="http://127.0.0.1:5000/insertar-jefe" method="post">
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Introduce el nombre del Jefe"
+          required
+        /><br />
+        <input
+          type="text"
+          name="descripcion"
+          placeholder="Introduce el descripcion del Jefe"
+          required
+        /><br />
+        <select name="piso" style="width: 10%;" required>
+          <option selected>Piso</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <button style="width: 10%;">Crear</button>
+      </form>
+    </center>
+  </body>
 </html>

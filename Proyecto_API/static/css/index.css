@@ -1,4 +1,4 @@
-body{
+.inicio{
     background-image: url(../img/etg_back.png);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -67,15 +67,14 @@ body{
     font-size: 105%;
     padding-left: 1%;
 }
-img{
-    width: 100%;
-    border-radius: 2px;
+/* Formularios */
+input{
+    margin: 0.5%;
+    width: 20%;
+    height: 25px;
+    font-size: 100%;
 }
 a{
     text-decoration: none;
     color: white;
-}
-
-input{
-    width: 30%;
 }

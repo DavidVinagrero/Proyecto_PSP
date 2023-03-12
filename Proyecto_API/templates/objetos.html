@@ -1,55 +1,53 @@
 <html>
-    <head>
-       <title>Insertar Objeto</title>
-       <style>
-        *{
-          font-family: Arial;
-        }
-        input{
-          width: 20%;
-          height: 20px;
-          margin: 0.4%;
-        }
-        select{
-           margin: 0.4%;
-           width: 10%;
-        }
-        button{
-          width: 10%;
-        }
-        .contenedor{
-          width: 98%;
-          background-color: grey;
-          padding: 0.5%;
-          padding-bottom: 2%;
-          border-radius: 5px; 
-          margin: auto;
-        }
-      </style>
-    </head>
-    <body>
-        <div class="contenedor">
-            <h1>¿Falta algún objeto?</h1>
+  <head>
+    <title>Insertar Objeto</title>
+    <link rel="stylesheet" href="../static/css/index.css" />
+  </head>
+  <body>
+    <center>
+      <div class="contenedor">
+        <h1>¿Falta algún objeto?</h1>
         <form method="post" action="http://127.0.0.1:5000/insertar-objeto">
-            <input type="text" name="nombre" placeholder="Introduce el nombre del objeto"/><br>
-            <input type="text" name="efecto" placeholder="Introduce el efecto de este objeto"/><br>
-            <input type="text" name="breve" placeholder="Introduce una breve descripcion"/><br>
-            <input type="text" name="imagen" placeholder="Introduce la url de la imagen"><br>
-            <select name="calidad">
-                <option selected>Calidad</option>
-                <option value="S">S</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-            </select>
-            <select name="tipo">
-                <option selected>Tipo</option>
-                <option value="Activo">Activo</option>
-                <option value="Pasivo">Pasivo</option>
-            </select><br>
-            <button>Insertar</button>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Introduce el nombre del objeto"
+            required
+          /><br />
+          <input
+            type="text"
+            name="efecto"
+            placeholder="Introduce el efecto de este objeto"
+            required
+          /><br />
+          <input
+            type="text"
+            name="breve"
+            placeholder="Introduce una breve descripcion"
+            required
+          /><br />
+          <input
+            type="text"
+            name="imagen"
+            placeholder="Introduce la url de la imagen"
+            required
+          /><br />
+          <select name="calidad" required style="width: 10%;">
+            <option selected>Calidad</option>
+            <option value="S">S</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+          <select name="tipo" required style="width: 10%;">
+            <option selected>Tipo</option>
+            <option value="Activo">Activo</option>
+            <option value="Pasivo">Pasivo</option></select
+          ><br />
+          <button style="margin-top: 1%; width: 10%;">Insertar</button>
         </form>
-        </div>
-    </body>
+      </div>
+    </center>
+  </body>
 </html>
